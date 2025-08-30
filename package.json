@@ -1,0 +1,16 @@
+{
+  "name": "securechat",
+  "version": "1.0.0",
+  "description": "A Node.js + Express backend for a privacy first chat & video calling app, designed for end to end encryption (E2EE), ephemeral media, and zero server storage of sensitive data.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"ts-node-dev src/api/server.ts\" \"ts-node-dev src/signal/server.ts\"",
+    "build": "tsc -p .",
+    "start": "node dist/api/server.js",
+    "start:signal": "node dist/signal/server.js",
+    "lint": "eslint .",
+    "format": "prettier -w ."
+  },
+  "author": "",
+  "license": "ISC"
+}

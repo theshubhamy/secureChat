@@ -1,0 +1,61 @@
+services:
+  api:
+    build: .
+    container_name: securechat_api
+    env_file: .env
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+      - redis
+    command: ['node', 'dist/api/server.js']
+
+  signal:
+    build: .
+    container_name: securechat_signal
+    env_file: .env
+    ports:
+      - '8090:8090'
+    depends_on:
+      - redis
+    command: ['node', 'dist/signal/server.js']
+
+  db:
+    image: postgres:16-alpine
+    container_name: securechat_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: securechat
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: securechat_redis
+    ports:
+      - '6379:6379'
+
+  turn:
+    image: instrumentisto/coturn
+    container_name: securechat_turn
+    network_mode: host # for simplicity in dev; change for production
+    environment:
+      - TURN_SECRET=${TURN_SECRET}
+    command: >-
+      --no-cli
+      --fingerprint
+      --no-tls
+      --no-dtls
+      --no-stdout-log
+      --lt-cred-mech
+      --use-auth-secret
+      --static-auth-secret=${TURN_SECRET}
+      --realm=gochat
+      --no-software-attribute
+      --min-port=49160 --max-port=49200
+
+volumes:
+  pgdata:
