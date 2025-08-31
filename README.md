@@ -40,8 +40,7 @@ A **Node.js + Express backend** for a privacy‑first chat & video calling app, 
 ```
 secureChat/
 ├── src/
-│   ├── app.js                  # Express app setup (middlewares, routes)
-│   ├── server.js               # API server entry point
+│   ├── app.js                  # Express app setup, server entry point
 │   ├── signal/                 # WebSocket signaling server
 │   │   ├── index.js            # WS server entry
 │   │   └── hub.js              # Rooms, peers, message routing
